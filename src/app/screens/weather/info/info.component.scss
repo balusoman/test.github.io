@@ -1,0 +1,31 @@
+@import 'swiper/scss';
+@import 'swiper/scss/navigation';
+@import 'swiper/scss/pagination';
+
+$primaryColor: var(--primaryColor);
+
+.swiper-button-next,.swiper-button-prev
+{
+    color: $primaryColor;
+}  
+.swiper-wrapper{
+    padding-top: 20px;
+    padding-bottom: 20px; 
+}
+.swiper-slide{ 
+    height: 95%;
+    width: 18% !important; 
+} 
+
+.rotate {
+    animation: rotation 6s infinite linear;
+  } 
+
+@keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }

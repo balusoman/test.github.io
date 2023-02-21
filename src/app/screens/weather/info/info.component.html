@@ -1,0 +1,107 @@
+<div class="w-full h-full relative  pt-12 lg:pt-0  p flex flex-col">
+    <div *ngIf="weatherData" class="w-full h-[20%] pt-4 px-4  flex flex-row justify-between items-center ">
+        <div class="flex flex-col h-full  justify-end  ">
+            <div class="flex flex-row gap-2 items-center ">
+                <div class="w-20 h-20 
+                bg-no-repeat bg-contain bg-center "
+                [ngStyle]="{'background-image': 
+                            weatherData.current.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
+                             weatherData.current.weather[0].main =='Rain' ?'url(\'../../../assets/icons/rain.png\')':
+                             weatherData.current.weather[0].main =='Thunderstorm' ?'url(\'../../../assets/icons/thunder.png\')':
+                             weatherData.current.weather[0].main =='Drizzle' ?'url(\'../../../assets/icons/drizzle.png\')':
+                             weatherData.current.weather[0].main =='Snow' ?'url(\'../../../assets/icons/snow.png\')':
+ 
+                             'url(\'../../../assets/icons/clear.png\')'}">
+
+                </div>
+                <div> 
+                    <span class="text-4xl dark:text-slate-200">{{dailyData.temp.max - 273 | number: "1.0-0" }}&deg;C</span>
+                </div>
+                <div class="flex flex-col dark:text-slate-200 text-base justify-between">
+                    <span> Pressure: <span class="font-semibold">{{ dailyData.pressure }}mb</span></span>
+                    <span>Humidity: <span class="font-semibold">{{ dailyData.humidity}}%</span></span>
+                    <span>Wind: <span class="font-semibold">{{ dailyData.wind_speed  | number: "1.0-0" }} km/h</span></span>
+                </div>
+            </div> 
+        </div>
+        <div class="flex flex-col  items-end dark:text-slate-200 justify-end h-full pr-4 text-2xl ">
+
+            <span >{{cityData?.name}}</span> 
+            <span class="text-sm text-slate-500">{{cityData?.state}}</span>
+                <span  class="text-sm tracking-wide flex justify-center items-center">latitude:&nbsp; &nbsp; <span #latitude class="font-semibold">{{cityData?.lat}}</span> &nbsp;
+                <button
+                (click)="copyText(cityData?.lat)"
+                 class="material-symbols-outlined mb-0.5 text-base font-semibold text-orange-300 dark:text-darkPrimary">
+                    content_copy
+                    </button></span>
+
+                <span class="text-sm tracking-wide flex justify-center items-center">longitude:<span class="font-semibold">{{cityData?.lon}}</span>&nbsp;
+                <button
+                (click)="copyText(cityData?.lat)"
+                 class="material-symbols-outlined mb-0.5 text-base font-semibold text-orange-300 dark:text-darkPrimary">
+                    content_copy
+                    </button></span>
+                 
+        </div>
+    </div>
+
+
+    <div class="w-full h-[40%]">
+        <canvas  id="canvas1">{{chart1}}</canvas>
+        
+    </div>  
+    <div *ngIf="weatherData" class="w-full h-[10%] text-base font-medium text-slate-600 dark:text-slate-200  flex flex-row justify-between pr-2 ">
+        <span>Morning</span>
+        <span>Noon</span>
+        <span>Evening</span>
+        <span>Night</span>
+    </div>
+
+    <div *ngIf="!expand" class="w-full  dark:text-slate-300 flex  justify-center items-center  ">
+        <swiper 
+    [slidesPerView]="5"
+    [spaceBetween]="10" 
+    [navigation]="true"
+    
+     *ngIf="weatherData" class="w-full flex justify-center items-center h-full"> 
+        <ng-template swiperSlide class="  flex flex-col justify-center items-center rounded-2xl shadow-md" *ngFor="let day of weatherData.daily">
+            <button (click)="show(day)"  class="w-full flex flex-col justify-center items-center ">
+                <span class="text-xs ">{{day.dt *1000 | date }}</span> 
+                <div class="w-14  h-14 bg-no-repeat bg-contain bg-center "
+                [ngStyle]="{'background-image': 
+                            day.weather[0].main =='Clouds' ?'url(\'../../../assets/icons/cloud.png\')' :
+                             day.weather[0].main =='Rain' ?'url(\'../../../assets/icons/rain.png\')':
+                             day.weather[0].main =='Thunderstorm' ?'url(\'../../../assets/icons/thunder.png\')':
+                             day.weather[0].main =='Drizzle' ?'url(\'../../../assets/icons/drizzle.png\')':
+                             day.weather[0].main =='Snow' ?'url(\'../../../assets/icons/snow.png\')':
+ 
+                             'url(\'../../../assets/icons/clear.png\')'}"
+                >
+    
+                </div>
+                <span class="text-lg font-medium">{{day.temp.max - 273 | number: "1.0-0" }}&deg; 
+                    <span class="text-sm text-slate-700">{{day.temp.min - 273 | number: "1.0-0" }}&deg;</span>
+                </span>
+            </button> 
+        </ng-template>
+    </swiper>  
+    </div>
+
+
+
+    
+    <!-- <button *ngIf="weatherData" (click)="more()" class="flex  flex-grow bg-green-400 justify-center items-center">
+        
+    </button>
+    <div *ngIf="expand" class="flex h-5/6 w-full absolute bottom-0 bg-slate-100 ">
+          
+    </div> -->
+</div>
+<div *ngIf="!weatherData" class="w-[90%] dark:bg-primaryBlack h-full flex flex-col top-0 left-20 z-50 justify-center items-center bg-white absolute" >
+    <div class="w-48 h-48 rotate
+    bg-no-repeat bg-contain bg-center
+        bg-[url('/../../../assets/icons/sun-anim.png')]">
+
+    </div> 
+    <!-- <span class="mt-1 font-medium text-base ml-4 text-yellow-400 tracking-wide">fetching...</span> -->
+</div>
